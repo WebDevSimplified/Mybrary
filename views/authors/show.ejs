@@ -1,4 +1,4 @@
-<h2><%= author.name %></h2>
+<h2 class="page-header"><%= author.name %></h2>
 <a href="/authors/<%= author.id %>/edit">Edit</a>
 <%- include('../partials/deleteForm',
             { url: `/authors/${author.id}` }) %>
