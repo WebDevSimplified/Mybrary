@@ -2,7 +2,17 @@ const express = require('express')
 const router = express.Router()
 const Book = require('../models/book')
 const Author = require('../models/author')
+const multer = require('multer')
+const path = require('path')
+const fs=require('fs')
+const uploadPath = path.join('public', Book.coverImageBasePath)
 const imageMimeTypes = ['image/jpeg', 'image/png', 'images/gif']
+const upload = multer({
+  dest: uploadPath,
+  fileFilter: (req, file, callback) => {
+    callback(null, imageMimeTypes.includes(file.mimetype))
+  }
+})
 
 // All Books Route
 router.get('/', async (req, res) => {
@@ -55,9 +65,11 @@ router.post('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
   try {
     const book = await Book.findById(req.params.id)
-                           .populate('author')
-                           .exec()
-    res.render('books/show', { book: book })
+      .populate('author')
+      .exec()
+    res.render('books/show', {
+      book: book
+    })
   } catch {
     res.redirect('/')
   }
@@ -115,6 +127,7 @@ router.delete('/:id', async (req, res) => {
       res.redirect('/')
     }
   }
+  npm
 })
 
 async function renderNewPage(res, book, hasError = false) {

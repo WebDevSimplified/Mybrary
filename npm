@@ -1,0 +1,15 @@
+
+
+
+npm init -y
+npm i express ejs express-ejs-layouts
+npm install --save-dev nodemon
+npm i mongoose     
+npm i --save-dev dotenv 
+npm install dotenv  
+npm i body-parser  
+npm i method-override 
+npm i multer        
+
+nodemon server.js  
+nmp run devStart
