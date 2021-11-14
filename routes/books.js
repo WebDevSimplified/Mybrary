@@ -51,7 +51,7 @@ router.post('/', async (req, res) => {
     pageCount: req.body.pageCount,
     description: req.body.description
   })
-  saveCover(book, req.body.cover)
+   saveCover(book, req.body.cover)
 
   try {
     const newBook = await book.save()
@@ -126,8 +126,7 @@ router.delete('/:id', async (req, res) => {
     } else {
       res.redirect('/')
     }
-  }
-  npm
+  }  
 })
 
 async function renderNewPage(res, book, hasError = false) {
@@ -159,12 +158,16 @@ async function renderFormPage(res, book, form, hasError = false) {
 }
 
 function saveCover(book, coverEncoded) {
-  if (coverEncoded == null) return
-  const cover = JSON.parse(coverEncoded)
-  if (cover != null && imageMimeTypes.includes(cover.type)) {
-    book.coverImage = new Buffer.from(cover.data, 'base64')
-    book.coverImageType = cover.type
+  try {
+    if (!coverEncoded) return
+    const cover = JSON.parse(coverEncoded)
+    if (cover != null && imageMimeTypes.includes(cover.type)) {
+      book.coverImage = new Buffer.from(cover.data, 'base64')
+      book.coverImageType = cover.type
+    }
+  } catch {
+    res.redirect('/books')
   }
-}
+  }
 
 module.exports = router
